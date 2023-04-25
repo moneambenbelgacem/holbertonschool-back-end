@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """Create an API to get todo list for employe"""
 
+
+
 import requests
 from sys import argv
 
@@ -15,10 +17,10 @@ if __name__ == "__main__":
 
     for task in todo_list:
         if task['completed'] is True:
-            text += "\t {}\n".format(task['title'])
+            text += f"\t {task['title']}\n"
             completed_tasks += 1
 
-    print("Employee {} is done with tasks({}/20):\n{}"
-          .format(employee['name'],
-                  completed_tasks,
-                  text), end="")
+    print(
+        f"Employee {employee['name']} is done with tasks({completed_tasks}/20):\n{text}",
+        end="",
+    )
