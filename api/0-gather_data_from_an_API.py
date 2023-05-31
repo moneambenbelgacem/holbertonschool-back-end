@@ -3,24 +3,21 @@
 
 
 
+
+
 import requests
-from sys import argv
+import sys
 
-url_base = "https://jsonplaceholder.typicode.com/users/"
+def get_employee_tasks(employeeId):
+    employee = requests.get(f'https://new_url_for_employee_info/{employeeId}').json()
+    todos = requests.get(f'https://new_url_for_todos?userId={employeeId}').json()
 
+    done_tasks = [task for task in todos if task.get('completed') == True]
+    total_tasks = len(todos)
+
+    print(f"Employee {employee.get('name')} is done with tasks({len(done_tasks)}/{total_tasks}):")
+    for task in done_tasks:
+        print("\t " + task.get('title'))
 
 if __name__ == "__main__":
-    employee = requests.get(url_base + argv[1]).json()
-    todo_list = requests.get(url_base + argv[1] + "/todos/").json()
-    completed_tasks = 0
-    text = ""
-
-    for task in todo_list:
-        if task['completed'] is True:
-            text += f"\t {task['title']}\n"
-            completed_tasks += 1
-
-    print(
-        f"Employee {employee['name']} is done with tasks({completed_tasks}/20):\n{text}",
-        end="",
-    )
+    get_employee_tasks(int(sys.argv[1]))
